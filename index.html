@@ -7,30 +7,48 @@
     <title>MIDI評価</title>
     <script
         src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            h1 {
-                margin-top: 20px;
-            }
-            midi-player, midi-visualizer {
-                width: 80%;
-                margin: 20px 0;
-            }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        midi-player,
+        midi-visualizer {
+            width: 80%;
+            margin: 20px 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 576px) {
             iframe {
-                width: 80%;
-                height: 1100px;
-                border: none;
-                margin: 20px 0;
+                height: 160vh;
+                /* 小さい画面用の高さ */
             }
-        </style>
-    </head>
+        }
+
+        @media (min-width: 576px) {
+            iframe {
+                height: 100vh;
+                /* ふつうの画面用の高さ */
+            }
+        }
+    </style>
+</head>
 
 <body>
     <h1>MIDI評価アプリ</h1>
