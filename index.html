@@ -3,59 +3,141 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>MIDI評価</title>
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
+    <title>MIDI評価アプリ</title>
     <script
         src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            margin-top: 20px;
-        }
-
-        midi-player,
-        midi-visualizer {
-            width: 80%;
-            margin: 20px 0;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100vh;
-            border: none;
-            margin: 20px 0;
-        }
-
-        @media (max-width: 576px) {
-            iframe {
-                height: 160vh;
-            }
-        }
-
-        @media (min-width: 576px) {
-            iframe {
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
                 height: 100vh;
             }
-        }
-    </style>
+    
+            .left-panel,
+            .right-panel {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+    
+            .left-panel {
+                border-right: 1px solid #ccc;
+            }
+    
+            h1 {
+                margin-top: 0;
+            }
+    
+            midi-player,
+            midi-visualizer {
+                width: 80%;
+                margin: 20px 0;
+            }
+    
+            iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+    
+            .navigation-buttons {
+                display: flex;
+                justify-content: space-between;
+                /* width: 100%; */
+            }
+    
+            .navigation-buttons button {
+                flex: 1;
+                margin: 0 10px;
+            }
+    
+            @media (max-width: 768px) {
+                body {
+                    flex-direction: column;
+                }
+    
+                .left-panel,
+                .right-panel {
+                    width: 100%;
+                    height: 50%;
+                    border-right: none;
+                    border-bottom: 1px solid #ccc;
+                }
+    
+                .navigation-buttons {
+                    flex-direction: column;
+                }
+    
+                .navigation-buttons button {
+                    margin: 10px 0;
+                }
+            }
+        </style>
 </head>
 
 <body>
-    <h1>MIDI評価アプリ</h1>
-    <midi-player src="midi/sample.mid" sound-font visualizer="#myVisualizer">
-    </midi-player>
-    <!-- <midi-visualizer type="staff" id="myVisualizer"></midi-visualizer> -->
-    <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSdogTdHrokvjucsk41iuAnzl-uuUCdlKrmQ26rQZ4DE-5R6hQ/viewform?embedded=true"
-        width="640" height="1100" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    <div class="left-panel">
+        <h1>MIDI評価アプリ</h1>
+        <midi-player id="midiPlayer" src="" sound-font visualizer="#myVisualizer"></midi-player>
+        <midi-visualizer type="piano-roll" id="myVisualizer"></midi-visualizer>
+        <p>現在のファイル: <span id="currentFile">読み込み中...</span></p>
+        <div class="navigation-buttons">
+            <button id="prevButton">前へ</button>
+            <button id="nextButton">次へ</button>
+        </div>
+    </div>
+    <div class="right-panel">
+        <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdogTdHrokvjucsk41iuAnzl-uuUCdlKrmQ26rQZ4DE-5R6hQ/viewform?embedded=true"
+            width="640" height="1100" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    </div>
+    <script>
+        let midiFiles = [];
+        let currentIndex = 0;
+        const midiPlayer = document.getElementById('midiPlayer');
+        const currentFileDisplay = document.getElementById('currentFile');
+
+        // txtファイルを読み込む関数
+        function loadMidiFiles() {
+            fetch('midi_file_names.txt')
+                .then(response => response.text())
+                .then(data => {
+                    midiFiles = data.split('\r\n').filter(line => line.trim() !== '');
+                    updateMidiFile(currentIndex);
+                })
+                .catch(error => console.error('Error loading MIDI files:', error));
+        }
+
+        function updateMidiFile(index) {
+            const newSrc = `midi-2bar/${midiFiles[index]}`;
+            midiPlayer.src = newSrc;
+            const fileNumber = midiFiles[index].match(/-(\d{3})-of-1000\.mid$/)[1];
+            currentFileDisplay.textContent = fileNumber;
+        }
+
+        document.getElementById('prevButton').addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateMidiFile(currentIndex);
+            }
+        });
+
+        document.getElementById('nextButton').addEventListener('click', () => {
+            if (currentIndex < midiFiles.length - 1) {
+                currentIndex++;
+                updateMidiFile(currentIndex);
+            }
+        });
+
+        // 初期ファイルの設定
+        loadMidiFiles();
+    </script>
 </body>
 
 </html>
