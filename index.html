@@ -108,7 +108,7 @@
             fetch('midi_file_names.txt')
                 .then(response => response.text())
                 .then(data => {
-                    midiFiles = data.split('\r\n').filter(line => line.trim() !== '');
+                    midiFiles = data.split('\n').filter(line => line.trim() !== '');
                     updateMidiFile(currentIndex);
                 })
                 .catch(error => console.error('Error loading MIDI files:', error));
