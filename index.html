@@ -96,27 +96,30 @@
         </div>
     </div>
     <div class="right-panel">
+        <!-- <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSd8uTYw0ETck7zVFpDOXb3aCY6y9nD2icQ9CX188qRUs5xeWw/viewform?embedded=true"
+            width="640" height="1100" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe> -->
         <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSdogTdHrokvjucsk41iuAnzl-uuUCdlKrmQ26rQZ4DE-5R6hQ/viewform?embedded=true"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSd8uTYw0ETck7zVFpDOXb3aCY6y9nD2icQ9CX188qRUs5xeWw/viewform?embedded=true"
             width="640" height="1100" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
     </div>
     <script>
-        let midiFiles = [];
+        // let midiFiles = [];
         let currentIndex = 1;
         const midi_dir = 'midi-16bar_renamed';
         const midiPlayer = document.getElementById('midiPlayer');
         const currentFileDisplay = document.getElementById('currentFile');
 
         // txtファイルを読み込む関数
-        function loadMidiFiles() {
-            fetch('midi_file_names.txt')
-                .then(response => response.text())
-                .then(data => {
-                    midiFiles = data.split('\n').filter(line => line.trim() !== '');
-                    updateMidiFile(currentIndex);
-                })
-                .catch(error => console.error('Error loading MIDI files:', error));
-        }
+        // function loadMidiFiles() {
+        //     fetch('midi_file_names.txt')
+        //         .then(response => response.text())
+        //         .then(data => {
+        //             midiFiles = data.split('\n').filter(line => line.trim() !== '');
+        //             updateMidiFile(currentIndex);
+        //         })
+        //         .catch(error => console.error('Error loading MIDI files:', error));
+        // }
 
         // function updateMidiFile(index) {
         //     const newSrc = `midi-2bar/${midiFiles[index]}`;
