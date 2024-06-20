@@ -136,14 +136,14 @@
         }
 
         document.getElementById('prevButton').addEventListener('click', () => {
-            if (currentIndex > 0) {
+            if (currentIndex > 1) { // IDは1から
                 currentIndex--;
                 updateMidiFile(currentIndex);
             }
         });
 
         document.getElementById('nextButton').addEventListener('click', () => {
-            if (currentIndex < midiFiles.length - 1) {
+            if (currentIndex < 111 - 1) {
                 currentIndex++;
                 updateMidiFile(currentIndex);
             }
